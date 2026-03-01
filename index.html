@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Scratchy's Show!</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background-image: url("background.png");
+  background-repeat: repeat;
+  background-size: 300px 300px;
+  animation: scrollBg 25s linear infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+@keyframes scrollBg {
+  from { background-position: 0 0; }
+  to { background-position: 1000px 1000px; }
+}
+
+.container {
+  position: relative;
+  text-align: center;
+  background: rgba(0,0,0,0.75);
+  padding: 30px;
+  border-radius: 16px;
+  max-width: 600px;
+  color: white;
+}
+
+.logo {
+  max-width: 100%;
+  cursor: pointer;
+  margin-bottom: 20px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+.description {
+  margin-bottom: 20px;
+}
+
+.button {
+  display: block;
+  margin: 10px auto;
+  padding: 12px 20px;
+  background: orange;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+  width: 220px;
+  transition: 0.2s;
+}
+
+.button:hover {
+  transform: scale(1.05);
+}
+
+.coming-soon {
+  margin-top: 8px;
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+#episodeMenu {
+  margin-top: 20px;
+}
+
+#hiddenMessage {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  display: none;
+  z-index: 9999;
+}
+
+.confetti {
+  position: fixed;
+  font-size: 20px;
+  pointer-events: none;
+  animation: fall 1.5s ease-out forwards;
+}
+
+@keyframes fall {
+  from {
+    transform: translate(0,0) rotate(0deg);
+    opacity: 1;
+  }
+  to {
+    transform: translate(var(--x), var(--y)) rotate(720deg);
+    opacity: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <img src="Scatchylogo.png" class="logo" id="logo">
+
+  <p class="description">
+    Scratchy's Show Is well... a show, i guess.... but its really a way for me to spill my creativity into something that means something to me. im currently making episode one so dont trust the episode 1 button down there,
+  </p>
+
+    i promise you. this show will be here sometime. so stick around, maybe subscribe to the youtube channel while your here.
+  </p>
+
+  <!-- Channel Link -->
+  <a
+    class="button"
+    href="https://www.youtube.com/@ScratchysShowOFFICAIAL"
+    target="_blank"
+  >
+    Visit the YouTube Channel
+  </a>
+
+  <!-- Episode Select -->
+  <div id="episodeMenu">
+    <h3>Episode Select</h3>
+
+    <a
+      class="button"
+      href="target.html"
+      target="_blank"
+    >
+      "Episode 1"
+    </a>
+
+    <div class="coming-soon">More episodes coming soon…</div>
+  </div>
+</div>
+
+<div id="hiddenMessage">you like confetti? OK!!!</div>
+
+<script>
+const logo = document.getElementById("logo");
+const hiddenMessage = document.getElementById("hiddenMessage");
+
+let clickCount = 0;
+
+function createCatConfetti(x, y, amount = 30) {
+  for (let i = 0; i < amount; i++) {
+    const cat = document.createElement("div");
+    cat.className = "confetti";
+    cat.textContent = "🐱";
+
+    cat.style.left = x + "px";
+    cat.style.top = y + "px";
+
+    cat.style.setProperty("--x", (Math.random() - 0.5) * 600 + "px");
+    cat.style.setProperty("--y", (Math.random() * 600 + 200) + "px");
+
+    document.body.appendChild(cat);
+    setTimeout(() => cat.remove(), 1500);
+  }
+}
+
+function explodeScreen() {
+  for (let i = 0; i < 300; i++) {
+    const cat = document.createElement("div");
+    cat.className = "confetti";
+    cat.textContent = "🐱";
+
+    cat.style.left = Math.random() * window.innerWidth + "px";
+    cat.style.top = Math.random() * window.innerHeight + "px";
+
+    cat.style.setProperty("--x", (Math.random() - 0.5) * 800 + "px");
+    cat.style.setProperty("--y", (Math.random() * 800 + 200) + "px");
+
+    document.body.appendChild(cat);
+    setTimeout(() => cat.remove(), 1500);
+  }
+}
+
+logo.addEventListener("click", () => {
+  const rect = logo.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+
+  clickCount++;
+  createCatConfetti(centerX, centerY, 40);
+
+  if (clickCount === 10) {
+    hiddenMessage.style.display = "block";
+    explodeScreen();
+  }
+});
+</script>
+
+</body>
+</html>
